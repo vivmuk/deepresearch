@@ -1,0 +1,3 @@
+# Railway will include everything from root, so this file ensures
+# the src folder is available when server runs
+
