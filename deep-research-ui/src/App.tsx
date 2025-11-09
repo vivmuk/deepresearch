@@ -16,6 +16,8 @@ function App() {
   const [models, setModels] = useState<ModelInfo[]>([]);
   const [showModelSelector, setShowModelSelector] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL || '';
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     if (savedTheme) {
@@ -24,7 +26,7 @@ function App() {
     document.documentElement.setAttribute('data-theme', theme);
     
     // Load available models
-    fetch('/api/models')
+    fetch(`${API_URL}/api/models`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -32,7 +34,7 @@ function App() {
         }
       })
       .catch(console.error);
-  }, [theme]);
+  }, [theme, API_URL]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -47,7 +49,7 @@ function App() {
     setResults(null);
 
     try {
-      const response = await fetch('/api/research', {
+      const response = await fetch(`${API_URL}/api/research`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
